@@ -72,17 +72,15 @@ let hogwarts = [
 ];
 
 // Task 1
-function houseBelongsGryffindor({firstName, lastName, house, ...people}) {
+for (let {firstName, lastName, house} of hogwarts) {
   if (house=="Gryffindor") {
     console.log(`${firstName} ${lastName}`);
   }
 }
-hogwarts.map((i) => {houseBelongsGryffindor(i)});
 
 // Task 2
-function teacherHasPets({firstName, lastName, house, pet, occupation}) {
+for (let {firstName, lastName, pet, occupation} of hogwarts) {
   if (occupation=="Teacher" && pet!=null) {
     console.log(`${firstName} ${lastName}`);
   }
 }
-hogwarts.map((i) => {teacherHasPets(i)});
