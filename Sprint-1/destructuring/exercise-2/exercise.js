@@ -70,3 +70,17 @@ let hogwarts = [
     occupation: "Teacher",
   },
 ];
+
+// Task 1
+for (let {firstName, lastName, house} of hogwarts) {
+  if (house=="Gryffindor") {
+    console.log(`${firstName} ${lastName}`);
+  }
+}
+
+// Task 2
+for (let {firstName, lastName, pet, occupation} of hogwarts) {
+  if (occupation=="Teacher" && pet!=null) {
+    console.log(`${firstName} ${lastName}`);
+  }
+}
