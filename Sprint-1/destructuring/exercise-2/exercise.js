@@ -70,3 +70,19 @@ let hogwarts = [
     occupation: "Teacher",
   },
 ];
+
+// Task 1
+function houseBelongsGryffindor({firstName, lastName, house, ...people}) {
+  if (house=="Gryffindor") {
+    console.log(`${firstName} ${lastName}`);
+  }
+}
+hogwarts.map((i) => {houseBelongsGryffindor(i)});
+
+// Task 2
+function teacherHasPets({firstName, lastName, house, pet, occupation}) {
+  if (occupation=="Teacher" && pet!=null) {
+    console.log(`${firstName} ${lastName}`);
+  }
+}
+hogwarts.map((i) => {teacherHasPets(i)});
