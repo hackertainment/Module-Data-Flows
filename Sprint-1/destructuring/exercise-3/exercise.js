@@ -10,7 +10,7 @@ let order = [
 let sum = 0;
 console.log("QTY     ITEM                TOTAL");
 for (let {itemName, quantity, unitPricePence} of order) {
-  sum = sum+unitPricePence;
+  sum = sum+(quantity*unitPricePence/100);
   console.log(`${quantity}\t${itemName.padEnd(20, " ")}${(unitPricePence/100).toFixed(2)}`);
 }
-console.log("\nTotal:", (sum/100).toFixed(2));
+console.log("\nTotal:", sum.toFixed(2));
