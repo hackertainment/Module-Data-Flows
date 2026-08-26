@@ -35,5 +35,6 @@ test("returns I if passed 1 as an argument", function () {
     expect(convertToOldRoman(2000)).toEqual("MM");
     expect(convertToOldRoman(3000)).toEqual("MMM");
     expect(convertToOldRoman(1234)).toEqual("MCCXXXIIII");
+    expect(convertToOldRoman(2444)).toEqual("MMCCCCXXXXIIII");
     expect(convertToOldRoman(2999)).toEqual("MMDCCCCLXXXXVIIII");
 });
