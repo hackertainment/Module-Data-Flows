@@ -46,34 +46,54 @@
   <!-- JS goes here -->
   <script>
     async function request() {
+      // Use the input field that lets us see what the weather is like in other cities
       const city = window.location.search.split("=")[1];
 
+      // Use fetch to retrieve the weather for a single day
       const weatherUrl = `http://api.openweathermap.org/data/2.5/weather?q=${(city===undefined || city=="" ? "london" : city.toLowerCase())}&APPID=`+process.env.APP_ID;
       const weatherResponse = await fetch(weatherUrl);
       const weatherJson = await weatherResponse.json();
 
+      // Once you've retrieved the weather data, use its description property to get matching images from Unsplash
       const unsplashUrl = `https://api.unsplash.com/search/photos?query=${weatherJson.weather[0].description.replaceAll(" ", "+")}&client_id=`+process.env.ACCESS_KEY;
       const unsplashResponse = await fetch(unsplashUrl);
       const unsplashJson = await unsplashResponse.json();
+
+      unsplashJson._query = weatherJson.weather[0].description;
 
       return unsplashJson;
     };
 
     const promise = request()
       .then((json) => {
+        // Display the images as a gallery of clickable thumbnails (clicking loads the main image)
         for (let i=0; i<json.results.length; i++) {
           let thumbImg = new Image();
           thumbImg.src = json.results[i].urls.thumb;
           thumbImg.alt = json.results[i].alt_description;
+          thumbImg.name = json.results[i].user.name;
+          thumbImg.id = json.results[i].user.links.html;
+          thumbImg.classList.add("thumb");
           thumbImg.addEventListener("click", function thumbnailClickHandler() {
             let photoImg = new Image();
             photoImg.src = this.src.slice(0, -3)+"1080";
             photoImg.alt = this.alt;
             document.getElementById("photo").replaceChildren();
             document.getElementById("photo").appendChild(photoImg);
+            // Display photographer credits in bottom right hand corner with link to their portfolio on Unsplash
+            document.getElementById("credit-user").innerHTML = this.name;
+            document.getElementById("credit-user").href = (this.id==null ? "#" : this.id);
+            // Display white border around thumbnail of image currently displayed as main image using active class
+            for (const child of document.getElementById("thumbs").children) {
+              child.classList.remove("active");
+            }
+            this.classList.add("active");
           });
           document.getElementById("thumbs").appendChild(thumbImg);
         }
+
+        // Add a feature of your choice
+        document.getElementById("conditions").innerHTML = json._query.toUpperCase();
       })
       .catch((error) => {
         console.error(error.message);
