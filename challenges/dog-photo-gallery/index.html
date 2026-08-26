@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dog photo gallery</title>
+</head>
+
+<body>
+    <button id="btn-append">Append</button>
+    <button id="btn-dequeue">Dequeue</button>
+    <ul id="list-dog"></ul>
+
+    <script>
+        async function request() {
+            const url = "https://dog.ceo/api/breeds/image/random";
+            const response = await fetch(url);
+            const json = await response.json();
+
+            return json;
+        };
+
+        document.getElementById("btn-append").addEventListener("click", function appendClickHandler() {
+            const promise = request()
+                .then((json) => {
+                    let li = document.createElement("li");
+                    let img = new Image();
+
+                    img.src = json.message;
+                    li.appendChild(img);
+                    document.getElementById("list-dog").appendChild(li);
+                })
+                .catch((error) => {
+                    console.error(error.message);
+                });
+        });
+
+        document.getElementById("btn-dequeue").addEventListener("click", function dequeueClickHandler() {
+            let ul = document.getElementById("list-dog");
+
+            if (ul.firstChild) {
+                ul.removeChild(ul.firstChild);
+            }
+        });
+    </script>
+</body>
+</html>
